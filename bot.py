@@ -16,7 +16,7 @@ bot = Bot(token=BOT_TOKEN)
 application = Application.builder().token(BOT_TOKEN).build()
 
 # List of authorized users
-AUTHORIZED_USERS = [123456789, 987654321]
+AUTHORIZED_USERS = [1139405017]
 
 # Available chats for posting
 available_chats = {}
