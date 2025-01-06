@@ -21,8 +21,8 @@ AUTHORIZED_USERS = [1139405017]
 # Available chats for posting
 available_chats = {}
 
+# Commands
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Respond to the /start command."""
     user_id = update.effective_user.id
     if user_id in AUTHORIZED_USERS:
         await update.message.reply_text("Welcome! You are authorized to use this bot.")
@@ -30,7 +30,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_text("You are not authorized to use this bot.")
 
 async def list_chats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """List all available chats."""
     user_id = update.effective_user.id
     if user_id not in AUTHORIZED_USERS:
         await update.message.reply_text("You are not authorized to use this bot.")
@@ -44,7 +43,6 @@ async def list_chats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     await update.message.reply_text(f"Available chats:\n{chat_list}")
 
 async def post(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Post a message to a specific chat."""
     user_id = update.effective_user.id
     if user_id not in AUTHORIZED_USERS:
         await update.message.reply_text("You are not authorized to use this bot.")
@@ -72,17 +70,22 @@ async def post(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     except Exception as e:
         await update.message.reply_text(f"Failed to post content: {e}")
 
-# Add command handlers
+# Add handlers
 application.add_handler(CommandHandler("start", start))
 application.add_handler(CommandHandler("list_chats", list_chats))
 application.add_handler(CommandHandler("post", post))
 
 @app.route("/", methods=["POST"])
 def webhook():
-    """Process Telegram updates via webhook."""
+    """Process Telegram updates."""
     update = Update.de_json(request.get_json(force=True), bot)
     application.update_queue.put(update)
     return "OK"
+
+@app.route("/", methods=["GET"])
+def health_check():
+    """Handle health check or browser visit."""
+    return "Bot is running!"
 
 if __name__ == "__main__":
     app.run(port=8000)
