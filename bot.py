@@ -17,7 +17,7 @@ bot = Bot(token=BOT_TOKEN)
 dispatcher = Dispatcher(bot, None, workers=0)
 
 # List of authorized user IDs
-AUTHORIZED_USERS = [123456789, 987654321]
+AUTHORIZED_USERS = [1139405017]
 
 # Dictionary to store available chats (groups/channels where the bot is admin)
 available_chats = {}
